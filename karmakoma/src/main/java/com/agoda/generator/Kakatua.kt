@@ -54,11 +54,11 @@ class Kakatua(private val environment: ProcessingEnvironment) {
         val builder = TypeSpec.classBuilder("Experimented_$className")
                 .superclass(experimentedClass.type.asTypeName())
                 .addModifiers(KModifier.PUBLIC)
-        generateExperimentedMethods(builder, experimentedClass, experimentedClass.values)
+        generateTestMethods(builder, experimentedClass, experimentedClass.values)
         return builder.build()
     }
 
-    private fun generateExperimentedMethods(
+    private fun generateTestMethods(
             classBuilder: TypeSpec.Builder,
             experimentedClass: ExperimentedTestedClass,
             values: Array<String>

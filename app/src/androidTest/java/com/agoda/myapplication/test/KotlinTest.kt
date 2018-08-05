@@ -1,14 +1,13 @@
 package com.agoda.myapplication.test
 
 import android.support.test.rule.ActivityTestRule
-import com.agoda.generator.annotations.A
 import com.agoda.generator.annotations.AnnotationB
 import com.agoda.generator.annotations.AnnotationC
 import com.agoda.generator.annotations.ExperimentTarget
 import com.agoda.myapplication.MainActivity
 import org.junit.Rule
 
-@ExperimentTarget
+@ExperimentTarget(["JUAN","ANTONIO"])
 open class KotlinTest {
 
     @Rule
@@ -18,7 +17,7 @@ open class KotlinTest {
 
   //  @Test
     @AnnotationB("ssksk")
-    @AnnotationC(["dd","ddd"])
+    @AnnotationC(["inaki","villar"])
     fun testAssert() {
         assert(true)
     }
