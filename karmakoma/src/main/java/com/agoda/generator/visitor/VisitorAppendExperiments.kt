@@ -8,8 +8,9 @@ import javax.lang.model.element.VariableElement
 import javax.lang.model.type.TypeMirror
 import javax.lang.model.util.SimpleAnnotationValueVisitor7
 
-class VisitorAppendExperiments constructor(
-        private val builder: CodeBlock.Builder
+class VisitorAppendExperiments (
+        private val builder: CodeBlock.Builder,
+        values: Array<String>
 ) : SimpleAnnotationValueVisitor7<CodeBlock.Builder, String>(builder) {
 
     override fun defaultAction(o: Any, name: String) = builder.add(CodeBlock.of("%S", "$o"))
@@ -22,12 +23,13 @@ class VisitorAppendExperiments constructor(
 
     override fun visitArray(values: List<AnnotationValue>, name: String): CodeBlock.Builder {
         var az = mutableListOf<AnnotationValue>()
+     //   if(values.)
         //   val aux: CodeBlock.Builder
         //  aux = CodeBlock.builder().add("s")
         //  var a = Visitorx(aux)
         //  builder.add( "assa")
         builder.add("[%W%>%>")
-        builder.add("\"inaki\",")
+        builder.add("\"inaki${values[0]}\",")
         values.forEachIndexed { index, value ->
             if (index > 0) builder.add(",%W")
             value.accept(this, name)
