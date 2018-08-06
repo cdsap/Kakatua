@@ -8,7 +8,7 @@ import javax.lang.model.element.VariableElement
 import javax.lang.model.type.TypeMirror
 import javax.lang.model.util.SimpleAnnotationValueVisitor7
 
-class VisitorDefault constructor(
+class DefaultVisitor constructor(
         private val builder: CodeBlock.Builder
 ) : SimpleAnnotationValueVisitor7<CodeBlock.Builder, String>(builder) {
 

@@ -5,6 +5,7 @@ import com.agoda.generator.annotations.ExperimentTarget
 import com.agoda.generator.annotations.ExperimentedTestedClass
 import com.agoda.generator.entities.Meta
 import com.squareup.kotlinpoet.*
+import org.junit.Test
 import java.io.File
 import javax.annotation.processing.ProcessingEnvironment
 import javax.annotation.processing.RoundEnvironment
@@ -66,8 +67,8 @@ class Kakatua(private val environment: ProcessingEnvironment) {
 
         experimentedClass.typeElement.enclosedElements
                 .filter {
-                    it.kind == ElementKind.METHOD //&&
-                    //  it.getAnnotationsByType(Test::class.java).isNotEmpty()
+                    it.kind == ElementKind.METHOD &&
+                            it.getAnnotationsByType(Test::class.java).isNotEmpty()
                 }
                 .forEach {
                     classBuilder.apply {

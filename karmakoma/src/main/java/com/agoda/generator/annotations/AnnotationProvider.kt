@@ -1,8 +1,8 @@
 package com.agoda.generator.annotations
 
-import com.agoda.generator.visitor.VisitorAppendExperiments
-import com.agoda.generator.visitor.VisitorDefault
-import com.agoda.generator.visitor.VisitorReplaceId
+import com.agoda.generator.visitor.AppendExperimentsVisitor
+import com.agoda.generator.visitor.DefaultVisitor
+import com.agoda.generator.visitor.ReplaceIdVisitor
 import com.squareup.kotlinpoet.AnnotationSpec
 import com.squareup.kotlinpoet.CodeBlock
 import com.squareup.kotlinpoet.asClassName
@@ -17,12 +17,12 @@ class AnnotationProvider {
         val builder = AnnotationSpec.builder(element.asClassName())
         val member = CodeBlock.builder()
         val visitor = when (it.annotationType.asElement().simpleName.toString()) {
-            AnnotationB::class.simpleName -> VisitorReplaceId(member)
-            AnnotationC::class.simpleName -> VisitorAppendExperiments(member, it.elementValues.toList()
+            AnnotationB::class.simpleName -> ReplaceIdVisitor(member)
+            AnnotationC::class.simpleName -> AppendExperimentsVisitor(member, it.elementValues.toList()
                     .flatMap {
                         listOf(it.second)
                     }, values)
-            else -> VisitorDefault(member)
+            else -> DefaultVisitor(member)
         }
 
         for (executableElement in it.elementValues.keys) {

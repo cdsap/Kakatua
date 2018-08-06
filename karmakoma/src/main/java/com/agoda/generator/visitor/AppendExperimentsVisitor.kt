@@ -4,12 +4,11 @@ import com.squareup.kotlinpoet.AnnotationSpec
 import com.squareup.kotlinpoet.CodeBlock
 import javax.lang.model.element.AnnotationMirror
 import javax.lang.model.element.AnnotationValue
-import javax.lang.model.element.ExecutableElement
 import javax.lang.model.element.VariableElement
 import javax.lang.model.type.TypeMirror
 import javax.lang.model.util.SimpleAnnotationValueVisitor7
 
-class VisitorAppendExperiments(
+class AppendExperimentsVisitor(
         private val builder: CodeBlock.Builder,
         private val currentExperiments: List<AnnotationValue>,
         private val newExperiments: Array<String>
@@ -27,7 +26,6 @@ class VisitorAppendExperiments(
         builder.add("[%W%>%>")
         var index = 0
         newExperiments.forEach {
-            //   if (currentExperiments.(it))
             if (index > 0) {
                 builder.add(",\"$it\"")
             } else {
@@ -36,16 +34,14 @@ class VisitorAppendExperiments(
             }
         }
         currentExperiments.forEach {
-            it.toString().split(",")
+            it.value.toString().split(",")
                     .forEach {
-                        //      newExperiments.get(1)
                         if (index > 0) {
                             builder.add(",$it")
                         } else {
                             index++
                             builder.add(it)
                         }
-
                     }
         }
 

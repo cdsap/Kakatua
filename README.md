@@ -1,6 +1,7 @@
-**KarmaKoma**
+**Kakatua**
+*Repeat your tests*
 
-*https://en.wikipedia.org/wiki/Karmacoma*
+![Car Image](art/kakatua.png)
 
 
 **Use**
@@ -8,7 +9,7 @@
 Annotate your class test with:
 `ExperimentTarget`
 
-KarmaKoma will generate class like:
+Kakatua will generate class like:
 
 
     class Experimented_KotlinTest : KotlinTest() {
