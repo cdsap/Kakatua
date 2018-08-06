@@ -37,4 +37,21 @@ class AnnotationProvider {
 
         return builder.build()
     }
+
+    fun get(values: Array<String>): CodeBlock {
+        val member = CodeBlock.builder()
+        member.add("[%W%>%>")
+        var index = 0
+        for (executableElement in values) {
+            if (index > 0) {
+                member.add(", \"$executableElement\"")
+            } else {
+                member.add("\"$executableElement\"")
+                index++
+            }
+        }
+        member.add("%W%<%<]")
+        return member.build()
+    }
+
 }

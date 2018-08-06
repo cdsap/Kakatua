@@ -24,27 +24,33 @@ class AppendExperimentsVisitor(
 
     override fun visitArray(values: List<AnnotationValue>, name: String): CodeBlock.Builder {
         builder.add("[%W%>%>")
+        var annotations = mutableListOf<String>()
         var index = 0
-        newExperiments.forEach {
-            if (index > 0) {
-                builder.add(",\"$it\"")
-            } else {
-                index++
-                builder.add("\"$it\"")
-            }
-        }
         currentExperiments.forEach {
             it.value.toString().split(",")
                     .forEach {
-                        if (index > 0) {
-                            builder.add(",$it")
-                        } else {
-                            index++
-                            builder.add(it)
+                        if (!annotations.contains("\"$it\"")) {
+                            if (index > 0) {
+                                builder.add(",$it")
+                            } else {
+                                index++
+                                builder.add(it)
+                            }
+                            annotations.add(it)
                         }
                     }
         }
-
+        newExperiments.forEach {
+            if (!annotations.contains("\"$it\"")) {
+                if (index > 0) {
+                    builder.add(",\"$it\"")
+                } else {
+                    index++
+                    builder.add("\"$it\"")
+                }
+                annotations.add(it)
+            }
+        }
         builder.add("%W%<%<]")
         return builder
     }

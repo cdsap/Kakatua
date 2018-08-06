@@ -8,7 +8,7 @@ import com.agoda.myapplication.MainActivity
 import org.junit.Rule
 import org.junit.Test
 
-@ExperimentTarget(["JUAN", "ANTONIO", "inaki"])
+@ExperimentTarget(["inaki", "JUAN", "ANTONIO"])
 open class KotlinTest {
 
     @Rule
@@ -20,6 +20,12 @@ open class KotlinTest {
     @AnnotationB("ssksk")
     @AnnotationC(["inaki", "villar"])
     fun testAssert() {
+        assert(true)
+    }
+
+    @Test
+    @AnnotationB("inaki")
+    fun testAssert2() {
         assert(true)
     }
 
