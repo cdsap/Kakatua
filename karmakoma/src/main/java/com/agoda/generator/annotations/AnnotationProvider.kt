@@ -18,7 +18,10 @@ class AnnotationProvider {
         val member = CodeBlock.builder()
         val visitor = when (it.annotationType.asElement().simpleName.toString()) {
             AnnotationB::class.simpleName -> VisitorReplaceId(member)
-            AnnotationC::class.simpleName -> VisitorAppendExperiments(member,values)
+            AnnotationC::class.simpleName -> VisitorAppendExperiments(member, it.elementValues.toList()
+                    .flatMap {
+                        listOf(it.second)
+                    }, values)
             else -> VisitorDefault(member)
         }
 

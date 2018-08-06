@@ -1,5 +1,5 @@
-@A
-package com.agoda.myapplication.test;
+//@A
+//package com.agoda.myapplication.test;
 
 //import com.agoda.generator.annotations.A;
 

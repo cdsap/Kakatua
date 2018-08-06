@@ -4,13 +4,15 @@ import com.squareup.kotlinpoet.AnnotationSpec
 import com.squareup.kotlinpoet.CodeBlock
 import javax.lang.model.element.AnnotationMirror
 import javax.lang.model.element.AnnotationValue
+import javax.lang.model.element.ExecutableElement
 import javax.lang.model.element.VariableElement
 import javax.lang.model.type.TypeMirror
 import javax.lang.model.util.SimpleAnnotationValueVisitor7
 
-class VisitorAppendExperiments (
+class VisitorAppendExperiments(
         private val builder: CodeBlock.Builder,
-        values: Array<String>
+        private val currentExperiments: List<AnnotationValue>,
+        private val newExperiments: Array<String>
 ) : SimpleAnnotationValueVisitor7<CodeBlock.Builder, String>(builder) {
 
     override fun defaultAction(o: Any, name: String) = builder.add(CodeBlock.of("%S", "$o"))
@@ -22,18 +24,31 @@ class VisitorAppendExperiments (
     override fun visitType(t: TypeMirror, name: String) = builder.add("%T::class", t)
 
     override fun visitArray(values: List<AnnotationValue>, name: String): CodeBlock.Builder {
-        var az = mutableListOf<AnnotationValue>()
-     //   if(values.)
-        //   val aux: CodeBlock.Builder
-        //  aux = CodeBlock.builder().add("s")
-        //  var a = Visitorx(aux)
-        //  builder.add( "assa")
         builder.add("[%W%>%>")
-        builder.add("\"inaki${values[0]}\",")
-        values.forEachIndexed { index, value ->
-            if (index > 0) builder.add(",%W")
-            value.accept(this, name)
+        var index = 0
+        newExperiments.forEach {
+            //   if (currentExperiments.(it))
+            if (index > 0) {
+                builder.add(",\"$it\"")
+            } else {
+                index++
+                builder.add("\"$it\"")
+            }
         }
+        currentExperiments.forEach {
+            it.toString().split(",")
+                    .forEach {
+                        //      newExperiments.get(1)
+                        if (index > 0) {
+                            builder.add(",$it")
+                        } else {
+                            index++
+                            builder.add(it)
+                        }
+
+                    }
+        }
+
         builder.add("%W%<%<]")
         return builder
     }

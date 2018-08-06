@@ -7,7 +7,7 @@ import com.agoda.generator.annotations.ExperimentTarget
 import com.agoda.myapplication.MainActivity
 import org.junit.Rule
 
-@ExperimentTarget(["JUAN","ANTONIO"])
+@ExperimentTarget(["JUAN", "ANTONIO", "inaki"])
 open class KotlinTest {
 
     @Rule
@@ -15,16 +15,16 @@ open class KotlinTest {
     val activityRule = ActivityTestRule(MainActivity::class.java)
 
 
-  //  @Test
+    //  @Test
     @AnnotationB("ssksk")
-    @AnnotationC(["inaki","villar"])
+    @AnnotationC(["inaki", "villar"])
     fun testAssert() {
         assert(true)
     }
 
 //    fun testWithoutAnnotationShouldNotBeIncluded() {
 
-  //  }
+    //  }
 
 }
 

@@ -25,7 +25,7 @@ class Kakatua(private val environment: ProcessingEnvironment) {
                     }
                     .map {
                         val a = it.getAnnotation(ExperimentTarget::class.java)
-                        ExperimentedTestedClass(it, emptyArray())
+                        ExperimentedTestedClass(it, a.values)
                     }
 
         }
@@ -76,7 +76,8 @@ class Kakatua(private val environment: ProcessingEnvironment) {
                                         .addCode("$it")
                                         .addAnnotations(
                                                 it.annotationMirrors.flatMap {
-                                                    mutableListOf(annotationProvider.get(it, values))
+                                                    mutableListOf(annotationProvider.get(
+                                                            it, values))
                                                 }
                                         )
                                         .build()
