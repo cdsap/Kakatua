@@ -1,9 +1,11 @@
 package com.agoda.generator
 
+import com.agoda.generator.annotations.AnnotationC
 import com.agoda.generator.annotations.AnnotationProvider
 import com.agoda.generator.annotations.ExperimentTarget
 import com.agoda.generator.annotations.ExperimentedTestedClass
 import com.agoda.generator.entities.Meta
+import com.agoda.generator.visitor.DefaultVisitor
 import com.squareup.kotlinpoet.*
 import org.junit.Test
 import java.io.File
@@ -41,7 +43,7 @@ class Kakatua(private val environment: ProcessingEnvironment) {
         experimentedClass.forEach {
 
             val packageName = packageName(environment.elementUtils, it.typeElement)
-            val generatedClass = generateClass(it)
+            val generatedClass = generateTestClass(it)
             val javaFile = FileSpec.builder(packageName, generatedClass.name ?: "")
                     .addType(generatedClass).build()
 
@@ -50,7 +52,7 @@ class Kakatua(private val environment: ProcessingEnvironment) {
 
     }
 
-    private fun generateClass(experimentedClass: ExperimentedTestedClass): TypeSpec {
+    private fun generateTestClass(experimentedClass: ExperimentedTestedClass): TypeSpec {
         val className = experimentedClass.type.toString().split(".").last()
         val builder = TypeSpec.classBuilder("Experimented_$className")
                 .superclass(experimentedClass.type.asTypeName())
@@ -72,19 +74,40 @@ class Kakatua(private val environment: ProcessingEnvironment) {
                 }
                 .forEach {
                     classBuilder.apply {
+                        val element = it
                         addFunction(
                                 FunSpec.builder("TEST_" + it.simpleName.toString())
                                         .addCode("$it")
-                                        .addAnnotations(
-                                                it.annotationMirrors.flatMap {
-                                                    mutableListOf(annotationProvider.get(
-                                                            it, values))
-                                                }
-                                        )
+                                        .also { generateTestAnnotations(it, element, values) }
                                         .build()
                         )
                     }
                 }
+    }
+
+    private fun generateTestAnnotations(builder: FunSpec.Builder, element: Element, values: Array<String>) {
+        var contents = false
+        element.annotationMirrors.forEach {
+            if (it.annotationType.asElement().simpleName.toString() == AnnotationC::class.simpleName) {
+                contents = true
+            }
+
+        }
+
+        builder.addAnnotations(
+                element.annotationMirrors.flatMap {
+                    mutableListOf(annotationProvider.get(
+                            it, values))
+                }
+        )
+
+        if (!contents) {
+            builder.addAnnotation(
+                    AnnotationSpec.builder(AnnotationC::class.java)
+                            .addMember(annotationProvider.get(values)).build()
+            )
+        }
+
     }
 
     private fun packageName(elementUtils: Elements, typeElement: Element): String {
