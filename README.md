@@ -20,8 +20,4 @@ Kakatua will generate class like:
        }
 
 
-**Pending**
-
-  Aggregate attributes annotations
-  Override annotations
 
