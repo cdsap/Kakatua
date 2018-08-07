@@ -1,11 +1,7 @@
 package com.agoda.generator
 
-import com.agoda.generator.annotations.AnnotationC
-import com.agoda.generator.annotations.AnnotationProvider
-import com.agoda.generator.annotations.ExperimentTarget
-import com.agoda.generator.annotations.ExperimentedTestedClass
+import com.agoda.generator.annotations.*
 import com.agoda.generator.entities.Meta
-import com.agoda.generator.visitor.DefaultVisitor
 import com.squareup.kotlinpoet.*
 import org.junit.Test
 import java.io.File
@@ -64,7 +60,7 @@ class Kakatua(private val environment: ProcessingEnvironment) {
     private fun generateTestMethods(
             classBuilder: TypeSpec.Builder,
             experimentedClass: ExperimentedTestedClass,
-            values: Array<String>
+            values: Array<Experiments>
     ) {
 
         experimentedClass.typeElement.enclosedElements
@@ -77,7 +73,7 @@ class Kakatua(private val environment: ProcessingEnvironment) {
                         val element = it
                         addFunction(
                                 FunSpec.builder("TEST_" + it.simpleName.toString())
-                                        .addCode("$it")
+                                        .addCode("$it\n")
                                         .also { generateTestAnnotations(it, element, values) }
                                         .build()
                         )
@@ -85,10 +81,10 @@ class Kakatua(private val environment: ProcessingEnvironment) {
                 }
     }
 
-    private fun generateTestAnnotations(builder: FunSpec.Builder, element: Element, values: Array<String>) {
+    private fun generateTestAnnotations(builder: FunSpec.Builder, element: Element, values: Array<Experiments>) {
         var contents = false
         element.annotationMirrors.forEach {
-            if (it.annotationType.asElement().simpleName.toString() == AnnotationC::class.simpleName) {
+            if (it.annotationType.asElement().simpleName.toString() == BExperiments::class.simpleName) {
                 contents = true
             }
 
@@ -103,7 +99,7 @@ class Kakatua(private val environment: ProcessingEnvironment) {
 
         if (!contents) {
             builder.addAnnotation(
-                    AnnotationSpec.builder(AnnotationC::class.java)
+                    AnnotationSpec.builder(BExperiments::class.java)
                             .addMember(annotationProvider.get(values)).build()
             )
         }
