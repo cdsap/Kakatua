@@ -12,13 +12,13 @@ import javax.lang.model.element.TypeElement
 class AnnotationProvider {
 
 
-    fun get(it: AnnotationMirror, values: Array<String>): AnnotationSpec {
+    fun get(it: AnnotationMirror, values: Array<Experiments>): AnnotationSpec {
         val element = it.annotationType.asElement() as TypeElement
         val builder = AnnotationSpec.builder(element.asClassName())
         val member = CodeBlock.builder()
         val visitor = when (it.annotationType.asElement().simpleName.toString()) {
-            AnnotationB::class.simpleName -> ReplaceIdVisitor(member)
-            AnnotationC::class.simpleName -> AppendExperimentsVisitor(member, it.elementValues.toList()
+            ReplaceableLabel::class.simpleName -> ReplaceIdVisitor(member)
+            BExperiments::class.simpleName -> AppendExperimentsVisitor(member, it.elementValues.toList()
                     .flatMap {
                         listOf(it.second)
                     }, values)
@@ -38,15 +38,15 @@ class AnnotationProvider {
         return builder.build()
     }
 
-    fun get(values: Array<String>): CodeBlock {
+    fun get(values: Array<Experiments>): CodeBlock {
         val member = CodeBlock.builder()
         member.add("[%W%>%>")
         var index = 0
         for (executableElement in values) {
             if (index > 0) {
-                member.add(", \"$executableElement\"")
+                member.add(",\n${executableElement.declaringClass.name}.$executableElement")
             } else {
-                member.add("\"$executableElement\"")
+                member.add("${executableElement.declaringClass.name}.$executableElement")
                 index++
             }
         }
