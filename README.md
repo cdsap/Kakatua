@@ -38,8 +38,3 @@ The output will be:
         }
 
 
-
-**Pending**
-
-  Override annotations
-
