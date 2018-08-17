@@ -10,11 +10,11 @@ import org.junit.Rule
 import org.junit.Test
 
 @ExperimentTarget([Experiments.EXPERIMENT_2, Experiments.EXPERIMENT_4, Experiments.EXPERIMENT_5])
-open class KotlinTest {
+class KotlinTest {
 
     @Rule
     @JvmField
-    val activityRule = ActivityTestRule(MainActivity::class.java)
+    final val activityRule = ActivityTestRule(MainActivity::class.java)
 
 
     @Test
@@ -25,8 +25,13 @@ open class KotlinTest {
     }
 
     @Test
+    fun testAssertxxxx() {
+        testAssert()
+    }
+
+    @Test
     @ReplaceableLabel("inaki")
-    fun testAssert2() {
+    open fun testAssert2() {
         assert(true)
     }
 

@@ -22,7 +22,7 @@ class KakatuaProcessor : AbstractProcessor() {
             annotations: MutableSet<out TypeElement>?,
             roundEnv: RoundEnvironment?
     ): Boolean {
-        Kakatua(processingEnv).init(roundEnv)
+        Kakatua(processingEnv).init(roundEnv, processingEnv)
         return true
     }
 }

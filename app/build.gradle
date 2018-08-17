@@ -1,8 +1,8 @@
 apply plugin: 'com.android.application'
-
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
-
+apply plugin: 'marathon'
+apply plugin: "kotlin-allopen"
 
 android {
     compileSdkVersion 27
@@ -48,5 +48,8 @@ dependencies {
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
     androidTestCompileOnly project(':karmakoma')
     kaptAndroidTest project(':karmakoma')
+}
 
+allOpen {
+    annotation("com.agoda.generator.annotations.ExperimentTarget")
 }
